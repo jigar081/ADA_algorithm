@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include<time.h>
+ 
+
+void swap(int* a, int* b)
+{
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+
+int partition(int arr[], int low, int high)
+{
+
+    int pivot = arr[high];
+ 
+    int i = (low - 1);
+ 
+    for (int j = low; j <= high - 1; j++) {
+ 
+
+        if (arr[j] < pivot) {
+ 
+
+            i++;
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+ 
+void quickSort(int arr[], int low, int high)
+{
+    if (low < high) {
+ 
+        int pi = partition(arr, low, high);
+ 
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+ 
+
+int main()
+{
+    clock_t st , et;
+    float ts;
+    int N;
+   
+    printf("Enter the range" );
+    scanf("%d",&N);
+   
+    int a[N];
+   
+    printf("Enter the VALUES");
+    for(int i=0 ;i<N; i++)
+    {
+        scanf("%d",&a[i]);
+    }
+
+
+   
+    st = clock();
+ 
+    quickSort(a, 0, N - 1);
+   
+    et = clock();
+   
+    ts = (float)(et-st)/CLOCKS_PER_SEC;
+   
+    printf("Sorted array: \n");
+    for (int i = 0; i < N; i++)
+        printf("%d ", a[i]);
+   
+   
+    printf("\nThe time taken by the qick sort is : %lf" ,ts);    
+    return 0;
+}
