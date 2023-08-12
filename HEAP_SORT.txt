@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <time.h>
+
+void Heapify(int A[], int n, int i)
+{
+    int max = i;
+    int leftChild = 2 * i;
+    int rightChild = 2 * i + 1;
+
+    if (leftChild <= n && A[leftChild] > A[max])
+        max = leftChild;
+
+    if (rightChild <= n && A[rightChild] > A[max])
+        max = rightChild;
+
+    if (max != i)
+    {
+        int temp = A[i];
+        A[i] = A[max];
+        A[max] = temp;
+        Heapify(A, n, max);
+    }
+}
+
+void HeapSort(int A[], int n)
+{
+    for (int i = n / 2; i >= 1; i--)
+        Heapify(A, n, i);
+
+    for (int i = n; i >= 2; i--)
+    {
+        int temp = A[1];
+        A[1] = A[i];
+        A[i] = temp;
+        Heapify(A, i - 1, 1);
+    }
+}
+
+int main()
+{
+    int n;
+
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    int A[n + 1];
+    printf("Enter %d elements: ", n);
+    for (int i = 1; i <= n; ++i)
+        scanf("%d", &A[i]);
+
+    clock_t start_time = clock(); // Start measuring time
+
+    HeapSort(A, n);
+
+    clock_t end_time = clock(); // Stop measuring time
+
+    printf("Sorted array: ");
+    for (int i = 1; i <= n; ++i)
+        printf("%d ", A[i]);
+    printf("\n");
+
+    double time_taken = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+    printf("Time taken: %f seconds\n", time_taken);
+
+    return 0;
+}
